@@ -1,12 +1,26 @@
-import React from "react";
-
+import { Route, Routes } from "react-router-dom";
+import SiginForm from "./_auth/forms/SigninForm";
+import SignupForm from "./_auth/forms/SignupForm";
+import AuthLayout from "./_auth/AuthLayout";
+import Home from "./_root/pages/Home";
+import RootLayout from "./_root/RootLayout";
+import "./globals.css";
 function App() {
   return (
-    <div className="App">
-      <header className="bg-blue-500 text-white p-4">
-        <h1 className="text-xl">Welcome to React with Tailwind CSS!</h1>
-      </header>
-    </div>
+    <main className="App">
+      <Routes>
+        {/* Public Routes */}
+        <Route element={<AuthLayout />}>
+          <Route path="/sign-in" element={<SiginForm />}></Route>
+          <Route path="/sign-up" element={<SignupForm />}></Route>
+        </Route>
+
+        {/* Protected Routes */}
+        <Route element={<RootLayout />}>
+          <Route index element={<Home />}></Route>
+        </Route>
+      </Routes>
+    </main>
   );
 }
 
