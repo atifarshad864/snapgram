@@ -1,33 +1,18 @@
-import React from "react";
-// import { zodResolver } from "@hookform/resolvers/zod";
-// import { useForm } from "react-hook-form";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Input } from "@/components/ui/input";
 import { SignupValidation } from "@/lib/validations";
 import Loader from "@/components/shared/Loader";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
-// import "../../globals.css";
+// import { useCreateUserAccount } from "@/lib/react-query/queriesAndMutations";
 const SignupForm = () => {
-  // const form = useForm({
-  //   resolver: zodResolver(SignupValidation),
-  //   defaultValues: {
-  //     name: "",
-  //     username: "",
-  //     email: "",
-  //     password: "",
-  //   },
-  // });
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const isLoading = false;
+  // const { mutateAsync: CreateUserAccount, isLoading: isCreatingAccount } =
+  //   useCreateUserAccount();
+
   const handleSubmit = () => {}; // integration here
   const initialValues = {
     name: "",
@@ -40,6 +25,10 @@ const SignupForm = () => {
     validationSchema: SignupValidation,
     onSubmit: handleSubmit,
   });
+
+  const togglePasswordVisibility = () => {
+    setPasswordVisible(!passwordVisible);
+  };
 
   return (
     <div className="sm:w-[500px] flex-center flex-col ml-12">
@@ -55,53 +44,59 @@ const SignupForm = () => {
           className="shad-input mt-2 sm:w-[350px]"
           value={formik.values.name}
           onChange={formik.handleChange}
-          id="name"
+          name="name"
           placeholder="Enter Name"
         />
-        {formik.touched.name && formik.errors.name ? (
-          <div className="text-red-500"></div>
-        ) : null}
+
+        <div className="validation_messages">{formik.errors.name}</div>
 
         <p className="mt-2">Username</p>
         <Input
           className="shad-input mt-2"
           value={formik.values.username}
           onChange={formik.handleChange}
-          id="username"
+          name="username"
           placeholder="Enter Username"
         />
-        {formik.touched.username && formik.errors.username ? (
-          <div className="text-red-500"></div>
-        ) : null}
+
+        <div className="validation_messages">{formik.errors.username}</div>
+
         <p className="mt-2">Email</p>
         <Input
           className="shad-input mt-2" // shadcn classes here
           value={formik.values.email}
           onChange={formik.handleChange}
-          id="email"
+          name="email"
           placeholder="Enter Email"
         />
-        {formik.touched.email && formik.errors.email ? (
-          <div className="text-red-500"></div>
-        ) : null}
+        <div className="validation_messages">{formik.errors.email}</div>
         <p className="mt-2">Password</p>
-        <Input
-          className="shad-input mt-2"
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          id="password"
-          placeholder="Enter Password"
-        />
-        {formik.touched.password && formik.errors.password ? (
-          <div className="text-red-500">Required</div>
-        ) : null}
+        <div className="relative">
+          <Input
+            className="shad-input mt-2"
+            type={passwordVisible ? "text" : "password"}
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            placeholder="********"
+            id="password"
+            name="password"
+          />
+          <div className="validation_messages">{formik.errors.password}</div>
+          <Button
+            type="button"
+            onClick={togglePasswordVisibility}
+            className="absolute top-[5%]  right-0 text-white"
+          >
+            {passwordVisible ? <FiEyeOff /> : <FiEye />}
+          </Button>
+        </div>
+
         <Button
           type="submit"
-          className="shad-button_primary w-full mt-4 sm:mt-2"
+          className="shad-button_primary w-full mt-4 sm:mt-4"
         >
           {isLoading ? (
             <div className="flex-center gap-2">
-              {" "}
               <Loader /> Loading...
             </div>
           ) : (
