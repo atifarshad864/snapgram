@@ -1,54 +1,65 @@
-import { createContext, useContext, useEffectm, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { getCurrentUser } from "@/lib/api-functions/api";
 
 export const INITIAL_USER = {
   id: "",
   name: "",
   username: "",
   email: "",
+  imageUrl: "",
   bio: "",
 };
 
-const INITIAL_STATE = {
-  user: INITIAL_USER,
-  isLoading: false,
-  isAuthenicated: false,
-  setUser: () => {},
-  setIsAuthenticated: () => {},
-  setIsLoading: () => {},
-  checkAuthUser: async () => false,
-};
+const AuthContext = createContext();
 
-const AuthContext = createContext(INITIAL_STATE);
+export const AuthProvider = ({ children }) => {
+  const navigate = useNavigate();
+  const [user, setUser] = useState(INITIAL_USER);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-const AuthProvider = { children };
-const [user, setUser] = useState(INITIAL_USER);
-const [isLoading, setIsLoading] = useState(false);
-const [isAuthenicated, setIsAuthenticated] = useState(false);
-
-const checkAuthUser = async () => {
-  try {
-    const currentAccount = await getCurrentUser();
-    if (currentAccount) {
-      setUser({
-        $id: currentAccount.$id,
-        name: currentAccount.name,
-        username: currentAccount.username,
-        email: currentAccount.email,
-        imageUrl: currentAccount.imageUrl,
-        bio: currentAccount.bio,
-      });
+  const checkAuthUser = async () => {
+    try {
+      const currentAccount = await getCurrentUser();
+      if (currentAccount) {
+        setUser({
+          id: currentAccount.id,
+          name: currentAccount.name,
+          username: currentAccount.username,
+          email: currentAccount.email,
+          imageUrl: currentAccount.imageUrl,
+          bio: currentAccount.bio,
+        });
+      }
+      setIsAuthenticated(true);
+      setIsLoading(false);
+      return true;
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+      return false;
     }
-  } catch (error) {}
-}; // Don't understand
+  };
 
-const value = {
-  user,
-  setUser,
-  isLoading,
-  setIsLoading,
-  isAuthenicated,
-  setIsAuthenticated,
-  checkAuthUser,
+  useEffect(() => {
+    if (
+      localStorage.getItem("accessToken") === "[]" ||
+      localStorage.getItem("accessToken") === null
+    )
+      navigate("/sign-in");
+    checkAuthUser();
+  }, []);
+
+  const value = {
+    user,
+    setUser,
+    isLoading,
+    isAuthenticated,
+    checkAuthUser,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-return <div>AuthProvider</div>;
+export const useUserContext = () => useContext(AuthContext);

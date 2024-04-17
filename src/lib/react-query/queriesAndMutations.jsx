@@ -1,14 +1,18 @@
-// import {
-//   useQuery,
-//   useMutation,
-//   useQueryClient,
-//   useInfiniteQuery,
-// } from "@tanstack/react-query";
+import { CreateUserAccount } from "@/lib/api-functions/api";
 
-// export const useCreateUserAccount = () => {
-//   return useMutation({
-//     // mutationFn: (name,username,email,password) => {
-//     //   return axios.post("http://localhost:3000/api/user/create"); // fake link provided soon by backend
-//     // },
-//   });
-// };
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  useInfiniteQuery,
+} from "@tanstack/react-query";
+
+const { mutate } = useMutation({
+  mutationFn: (data) => CreateUserAccount(data),
+  onSuccess: (data) => {
+    console.log("data", data);
+  },
+  onError: (error) => {
+    console.log("error", error);
+  },
+});

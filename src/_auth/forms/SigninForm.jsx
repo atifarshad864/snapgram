@@ -4,16 +4,44 @@ import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Input } from "@/components/ui/input";
 import { SigninValidation } from "@/lib/validations";
 import Loader from "@/components/shared/Loader";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
+import { LoginUserAccount } from "@/lib/api-functions/api";
+import { useToast } from "@/components/ui/use-toast";
+
 const SigninForm = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
-
+  const { toast } = useToast();
+  const navigate = useNavigate();
   const isLoading = false;
-  const handleSubmit = () => {}; // integration here
+  const { login } = useQuery({
+    queryKey: ["LoginUserAccount"],
+  });
+
+  const { mutate } = useMutation({
+    mutationFn: (login) => LoginUserAccount(login),
+    onSuccess: (response) => {
+      const token = response.data.accessToken;
+      localStorage.setItem("acessToken", token); // Save token in localStorage
+      console.log("Onsuccess Response--------- ", response.data);
+      toast({ title: "Login successfully!" });
+      navigate("/");
+    },
+    onError: (response) => {
+      console.log("OnFailure Response--------- ", response.data);
+      toast({ title: "Login Failed! Please try again" });
+    },
+  });
+
+  const handleSubmit = (values) => {
+    mutate(values);
+    console.log(values);
+  };
+
   const initialValues = {
     email: "",
-    Password: "",
+    password: "",
   };
   const formik = useFormik({
     initialValues: initialValues,

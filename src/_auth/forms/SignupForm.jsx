@@ -3,23 +3,52 @@ import { Button } from "@/components/ui/button";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Input } from "@/components/ui/input";
 import { SignupValidation } from "@/lib/validations";
+import { useToast } from "@/components/ui/use-toast";
 import Loader from "@/components/shared/Loader";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-// import { useCreateUserAccount } from "@/lib/react-query/queriesAndMutations";
+// import ApiServices from "@/api_services/ApiServices";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { CreateUserAccount } from "@/lib/api-functions/api";
+// import { useUserContext } from "@/context/AuthContext";
+
 const SignupForm = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const isLoading = false;
-  // const { mutateAsync: CreateUserAccount, isLoading: isCreatingAccount } =
-  //   useCreateUserAccount();
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
+  const navigate = useNavigate();
+  const { data } = useQuery({
+    queryKey: ["CreateUserAccount"],
+    // queryFn: () => ApiServices.post("person/register"),   // use to fetch data from api that is why hitting after 1 sec
+  });
 
-  const handleSubmit = () => {}; // integration here
+  const { mutate } = useMutation({
+    mutationFn: (data) => CreateUserAccount(data),
+
+    onSuccess: () => {
+      setIsLoading(true);
+      toast({ title: "Account created successfully!" });
+      formik.resetForm();
+      navigate("/");
+    },
+    onError: () => {
+      setIsLoading(false);
+      toast({ title: "Signup Failed! Please try again" });
+    },
+  });
+  const handleSubmit = (values) => {
+    setIsLoading(true);
+    mutate(values);
+    console.log(values);
+  };
+
   const initialValues = {
     name: "",
     username: "",
     email: "",
-    Password: "",
+    password: "",
   };
+
   const formik = useFormik({
     initialValues: initialValues,
     validationSchema: SignupValidation,
@@ -97,7 +126,7 @@ const SignupForm = () => {
         >
           {isLoading ? (
             <div className="flex-center gap-2">
-              <Loader /> Loading...
+              <Loader /> Submitting...
             </div>
           ) : (
             "Submit"

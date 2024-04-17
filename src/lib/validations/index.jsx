@@ -6,7 +6,7 @@ export const SignupValidation = yup.object({
   email: yup.string().required("Email is required*"),
   password: yup
     .string()
-    .required("password is required*")
+    .required("Password is required*")
     .matches(
       /^(?=.*?[A-Z])(?=.*?[^\w\s]).{1,}$/,
       "Add must 1 capital letter & 1 special character"
