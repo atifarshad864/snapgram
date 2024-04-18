@@ -9,6 +9,16 @@ import Atif from "./_root/pages/Atif";
 import Sikandar from "./_root/pages/Sikandar";
 import PrivateRoutes from "./utils/PrivateRoutes";
 import "./globals.css";
+import {
+  CreatePost,
+  AllUsers,
+  Explore,
+  Saved,
+  EditPost,
+  PostDetails,
+  Profile,
+  UpdateProfile,
+} from "./_root/pages";
 function App() {
   return (
     <main className="App">
@@ -22,9 +32,17 @@ function App() {
         {/* Protected Routes */}
         <Route element={<RootLayout />}>
           <Route index element={<Home />}></Route>
+          <Route path="/explore" element={<Explore />}></Route>
+          <Route path="/saved" element={<Saved />}></Route>
+          <Route path="/all-users" element={<AllUsers />}></Route>
+          <Route path="/create-post" element={<CreatePost />}></Route>
+          <Route path="/update-post/:id" element={<EditPost />}></Route>
+          <Route path="/posts/:id" element={<PostDetails />}></Route>
+          <Route path="/profile/:id/*" element={<Profile />}></Route>
+          <Route path="/update-profile/:id" element={<UpdateProfile />}></Route>
+
           <Route element={<PrivateRoutes />}>
             {/* Dummy routes for checking */}
-
             <Route path="/atif" element={<Atif />}></Route>
             <Route path="/sikandar" element={<Sikandar />}></Route>
           </Route>

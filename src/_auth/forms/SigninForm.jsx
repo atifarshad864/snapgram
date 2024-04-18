@@ -23,7 +23,7 @@ const SigninForm = () => {
     mutationFn: (login) => LoginUserAccount(login),
     onSuccess: (response) => {
       const token = response.data.accessToken;
-      localStorage.setItem("acessToken", token); // Save token in localStorage
+      localStorage.setItem("acessToken", token);
       console.log("Onsuccess Response--------- ", response.data);
       toast({ title: "Login successfully!" });
       navigate("/");
@@ -54,7 +54,7 @@ const SigninForm = () => {
   };
 
   return (
-    <div className="sm:w-[500px] flex-center flex-col ml-12">
+    <div className="w-full xl:w-1/2 flex-center flex-col max-xl:mt-12">
       <img src="/assets/images/logo.svg" alt="logo" />
       <h2 className="h3-bold md: h2-bold pt-8 sm:pt-4">
         Login to your account

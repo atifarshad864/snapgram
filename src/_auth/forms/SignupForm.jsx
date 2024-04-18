@@ -19,7 +19,6 @@ const SignupForm = () => {
   const navigate = useNavigate();
   const { data } = useQuery({
     queryKey: ["CreateUserAccount"],
-    // queryFn: () => ApiServices.post("person/register"),   // use to fetch data from api that is why hitting after 1 sec
   });
 
   const { mutate } = useMutation({
@@ -60,7 +59,7 @@ const SignupForm = () => {
   };
 
   return (
-    <div className="sm:w-[500px] flex-center flex-col ml-12">
+    <div className="w-full xl:w-1/2 flex-center flex-col max-xl:mt-12">
       <img src="/assets/images/logo.svg" alt="logo" />
       <h2 className="h3-bold md: h2-bold pt-8 sm:pt-4">Create a new account</h2>
       <p className="text-light-3 small-medium md:base-regular">

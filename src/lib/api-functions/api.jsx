@@ -7,3 +7,7 @@ export const CreateUserAccount = (data) => {
 export const LoginUserAccount = (login) => {
   return ApiServices.post("person/login", login);
 };
+
+export const SignOut = () => {
+  localStorage.removeItem("accessToken");
+};
