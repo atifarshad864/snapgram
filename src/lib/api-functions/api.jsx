@@ -11,3 +11,7 @@ export const LoginUserAccount = (login) => {
 export const SignOut = () => {
   localStorage.removeItem("accessToken");
 };
+
+export const CreateSinglePost = (formData) => {
+  return ApiServices.post("post/add", formData);
+};

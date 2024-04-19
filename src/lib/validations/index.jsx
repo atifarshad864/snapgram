@@ -17,3 +17,14 @@ export const SigninValidation = yup.object({
   email: yup.string().required("Please enter your email"),
   password: yup.string().required("Please enter your password"),
 });
+
+export const CreatePostValidations = yup.object({
+  caption: yup.string().required("Caption is required"),
+  location: yup.string().required("Location is required"),
+  tags: yup.array().of(yup.string()).required("Tags are required"),
+  file: yup.mixed().required("image is required"),
+});
+
+// tags: yup.array().transform((value, originalValue) => {
+//   return originalValue ? originalValue.split(",") : [];
+// }),
