@@ -3,42 +3,32 @@ import { Button } from "@/components/ui/button";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Input } from "@/components/ui/input";
 import { SignupValidation } from "@/lib/validations";
-import { useToast } from "@/components/ui/use-toast";
 import Loader from "@/components/shared/Loader";
 import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
-// import ApiServices from "@/api_services/ApiServices";
-import { useQuery, useMutation } from "@tanstack/react-query";
-import { CreateUserAccount } from "@/lib/api-functions/api";
-// import { useUserContext } from "@/context/AuthContext";
+import { useCreateNewUserAccount } from "@/lib/react-query/queries";
+import { useToast } from "@/components/ui/use-toast";
 
 const SignupForm = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { data } = useQuery({
-    queryKey: ["CreateUserAccount"],
-  });
 
-  const { mutate } = useMutation({
-    mutationFn: (data) => CreateUserAccount(data),
-
-    onSuccess: () => {
-      setIsLoading(true);
-      toast({ title: "Account created successfully!" });
-      formik.resetForm();
-      navigate("/");
-    },
-    onError: () => {
-      setIsLoading(false);
-      toast({ title: "Signup Failed! Please try again" });
-    },
-  });
-  const handleSubmit = (values) => {
+  const mutation = useCreateNewUserAccount();
+  console.log(" mutation--------------------- ", mutation);
+  const handleSubmit = async (values) => {
     setIsLoading(true);
-    mutate(values);
-    console.log(values);
+    try {
+      await mutation.mutateAsync(values);
+      formik.resetForm();
+      setIsLoading(false);
+      toast({ title: "Create Account Successfully" });
+      navigate("/sign-in");
+    } catch (error) {
+      setIsLoading(false);
+      toast({ title: error.response.data.message });
+    }
   };
 
   const initialValues = {

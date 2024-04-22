@@ -6,27 +6,15 @@ import { Input } from "../ui/input";
 import { useFormik } from "formik";
 import { CreatePostValidations } from "@/lib/validations";
 import { useNavigate } from "react-router-dom";
-import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/components/ui/use-toast";
-import { CreateSinglePost } from "@/lib/api-functions/api";
 
+import { useCreatePostMutation } from "@/lib/react-query/queries";
 const PostForm = () => {
   const { toast } = useToast();
-
   const navigate = useNavigate();
 
-  const { mutate } = useMutation({
-    mutationFn: (formData) => CreateSinglePost(formData),
-
-    onSuccess: () => {
-      toast({ title: "Create Post successfully!" });
-      navigate("/");
-    },
-    onError: () => {
-      toast({ title: "Could not create! Please try again" });
-    },
-  });
-
+  const mutation = useCreatePostMutation();
+  console.log(mutation, "mutation");
   const handleSubmit = async (values) => {
     try {
       const formData = new FormData();
@@ -38,7 +26,10 @@ const PostForm = () => {
           formData.append("tags[]", tag.trim()); // Append each tag with square brackets
         });
       }
-      mutate(formData);
+      mutation.mutateAsync(formData);
+      formik.resetForm();
+      toast({ title: "Create Post Successfully" });
+      navigate("/");
       console.log("formData---------------------", formData);
       console.log(values);
     } catch (error) {

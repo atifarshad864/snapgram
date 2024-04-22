@@ -5,38 +5,31 @@ import { Input } from "@/components/ui/input";
 import { SigninValidation } from "@/lib/validations";
 import Loader from "@/components/shared/Loader";
 import { Link, useNavigate } from "react-router-dom";
-import { useQuery, useMutation } from "@tanstack/react-query";
 import { useFormik } from "formik";
-import { LoginUserAccount } from "@/lib/api-functions/api";
 import { useToast } from "@/components/ui/use-toast";
+import { useLoginUserAccount } from "@/lib/react-query/queries";
 
 const SigninForm = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
-  const isLoading = false;
-  const { login } = useQuery({
-    queryKey: ["LoginUserAccount"],
-  });
 
-  const { mutate } = useMutation({
-    mutationFn: (login) => LoginUserAccount(login),
-    onSuccess: (response) => {
-      const token = response.data.accessToken;
-      localStorage.setItem("accessToken", token);
-      console.log("Onsuccess Response--------- ", response.data);
+  const mutation = useLoginUserAccount();
+  console.log(" mutation--------------------- ", mutation);
+
+  const handleSubmit = async (values) => {
+    setIsLoading(true);
+    try {
+      await mutation.mutateAsync(values);
+      formik.resetForm();
+      setIsLoading(false);
       toast({ title: "Login successfully!" });
       navigate("/");
-    },
-    onError: (response) => {
-      console.log("OnFailure Response--------- ", response.data);
-      toast({ title: "Login Failed! Please try again" });
-    },
-  });
-
-  const handleSubmit = (values) => {
-    mutate(values);
-    console.log(values);
+    } catch (error) {
+      setIsLoading(false);
+      toast({ title: error.response.data.message });
+    }
   };
 
   const initialValues = {

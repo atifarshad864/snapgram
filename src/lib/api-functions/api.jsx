@@ -1,17 +1,16 @@
 import ApiServices from "@/api_services/ApiServices";
 
-export const CreateUserAccount = (data) => {
+export const createUserAccount = (data) => {
   return ApiServices.post("person/register", data);
 };
 
-export const LoginUserAccount = (login) => {
+export const loginUserAccount = (login) => {
   return ApiServices.post("person/login", login);
 };
 
+export const createNewPost = (formData) => {
+  return ApiServices.post("post/add", formData);
+};
 export const SignOut = () => {
   localStorage.removeItem("accessToken");
-};
-
-export const CreateSinglePost = (formData) => {
-  return ApiServices.post("post/add", formData);
 };
