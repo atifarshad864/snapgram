@@ -25,6 +25,9 @@ export const CreatePostValidations = yup.object({
   file: yup.mixed().required("image is required"),
 });
 
-// tags: yup.array().transform((value, originalValue) => {
-//   return originalValue ? originalValue.split(",") : [];
-// }),
+export const updatePostValidations = yup.object({
+  caption: yup.string().required("Caption is required"),
+  location: yup.string().required("Location is required"),
+  tags: yup.array().of(yup.string()).required("Tags are required"),
+  file: yup.mixed().required("image is required"),
+});

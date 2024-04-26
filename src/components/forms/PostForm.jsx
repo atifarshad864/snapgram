@@ -51,7 +51,7 @@ const PostForm = () => {
     validationSchema: CreatePostValidations,
     onSubmit: handleSubmit,
   });
-  console.log(formik);
+  // console.log(formik);
   return (
     <div className="grid w-full gap-2">
       <form onSubmit={formik.handleSubmit}>

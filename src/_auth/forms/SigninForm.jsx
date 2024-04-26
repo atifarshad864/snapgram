@@ -16,12 +16,18 @@ const SigninForm = () => {
   const navigate = useNavigate();
 
   const mutation = useLoginUserAccount();
-  console.log(" mutation--------------------- ", mutation);
+  console.log(" LoginData--------------------- ", mutation);
 
   const handleSubmit = async (values) => {
+    // console.log("Vluess--------------------- ", values);
     setIsLoading(true);
     try {
-      await mutation.mutateAsync(values);
+      // Assume that mutation.mutateAsync(values) returns the access token upon successful login
+      const response = await mutation.mutateAsync(values);
+      console.log("accessToken-------------", response.data.accessToken);
+      // // Set the access token in local storage
+      localStorage.setItem("accessToken", response.data.accessToken);
+
       formik.resetForm();
       setIsLoading(false);
       toast({ title: "Login successfully!" });
@@ -31,7 +37,6 @@ const SigninForm = () => {
       toast({ title: error.response.data.message });
     }
   };
-
   const initialValues = {
     email: "",
     password: "",
