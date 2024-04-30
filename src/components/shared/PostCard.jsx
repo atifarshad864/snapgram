@@ -5,6 +5,7 @@ import PostStats from "./PostStats";
 import { useGetuserInfo } from "@/lib/react-query/queries";
 const PostCard = ({ post, setPostData }) => {
   const { isPending, data, isError } = useGetuserInfo();
+  console.log(post);
   const userInfo = data?.data?.data;
   return (
     <div className="post-card">

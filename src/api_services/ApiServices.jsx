@@ -4,6 +4,10 @@ const ApiServices = axios.create({
   baseURL: "http://localhost:3000/",
 });
 
+export const rickandmortyapi = axios.create({
+  baseURL: "https://rickandmortyapi.com/api/",
+});
+
 // baseURL: "http://192.168.100.168:3000/",
 
 ApiServices.interceptors.request.use(

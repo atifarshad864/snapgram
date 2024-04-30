@@ -48,3 +48,25 @@ export const bottombarLinks = [
     label: "Create",
   },
 ];
+export const userStories = [
+  {
+    imgURL: "./assets/icons/bts.png",
+    name: "BTS",
+  },
+  {
+    imgURL: "/assets/icons/frisbee.png",
+    name: "FrisBee",
+  },
+  {
+    imgURL: "/assets/icons/mygames.png",
+    name: "My Games",
+  },
+  {
+    imgURL: "/assets/icons/nature.png",
+    name: "Nature",
+  },
+  {
+    imgURL: "/assets/icons/outdoor.png",
+    name: "OutDoor",
+  },
+];

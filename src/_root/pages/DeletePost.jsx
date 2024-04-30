@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { useDeletePost } from "@/lib/react-query/queries";
 const DeletePost = ({ _id }) => {
+  console.log("DeelttPosst", _id);
   const deleteMutation = useDeletePost(_id);
 
   return (
@@ -23,7 +24,7 @@ const DeletePost = ({ _id }) => {
       </AlertDialogHeader>
       <AlertDialogFooter>
         <AlertDialogCancel>Cancel</AlertDialogCancel>
-        <AlertDialogAction onClick={(_id) => deleteMutation.mutateAsync(_id)}>
+        <AlertDialogAction onClick={() => deleteMutation.mutateAsync(_id)}>
           Delete Post{" "}
         </AlertDialogAction>
       </AlertDialogFooter>

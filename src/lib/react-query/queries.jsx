@@ -3,6 +3,8 @@ import {
   createNewPost,
   createUserAccount,
   deletePost,
+  getAllPost,
+  // getPopularPosts,
   getRecentPosts,
   likePost,
   loginUserAccount,
@@ -10,6 +12,7 @@ import {
   updatePostDetails,
   userInfo,
 } from "@/lib/api-functions/api";
+import { useRef } from "react";
 
 export const useLoginUserAccount = () => {
   const mutateloginUserAccount = useMutation({
@@ -78,3 +81,15 @@ export const useUpdatePostDetails = () => {
 
   return mutateUpdatePostDetails;
 };
+
+export const useGetPopularPosts = (query) => {
+  const mutateGetPopularPosts = useQuery({
+    queryKey: ["getallPosts", query],
+    queryFn: ({ signal }) => getAllPost(query, { signal }),
+  });
+
+  return mutateGetPopularPosts;
+};
+//staleTime = 0
+// staleTime,
+// keepPreviousData: true,

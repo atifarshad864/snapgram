@@ -1,6 +1,8 @@
 import { useLikePost, useSavePost } from "@/lib/react-query/queries";
 import React, { useState } from "react";
 const PostStats = ({ post, setPostData, userInfo }) => {
+  console.log("Post data", post);
+
   const [isSaved, setIsSaved] = useState(false);
 
   const likePost = useLikePost(post._id);

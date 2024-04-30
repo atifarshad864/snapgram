@@ -284,4 +284,7 @@
   .validation_messages {
     @apply text-rose-600 text-xs !important;
   }
+  .info-text {
+    @apply text-lg text-[#7878A3] !important;
+  }
 }

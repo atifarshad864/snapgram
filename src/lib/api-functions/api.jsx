@@ -1,5 +1,6 @@
 import ApiServices from "@/api_services/ApiServices";
-
+// import { rickandmortyapi } from "@/api_services/ApiServices";
+import axios from "axios";
 export const createUserAccount = (data) => {
   return ApiServices.post("person/register", data);
 };
@@ -40,6 +41,27 @@ export const updatePostDetails = (_id, formData) => {
   return ApiServices.put(`post/update/${_id}`, formData);
 };
 
+export const getAllPost = (query) => {
+  const controller = new AbortController();
+
+  let rickandmortyapi = "https://rickandmortyapi.com/api/character";
+
+  if (query) rickandmortyapi += `?name=${query}`;
+  setTimeout(() => {
+    controller.abort();
+  }, 400);
+  return axios.get(rickandmortyapi, { signal: controller.signal });
+};
+
+//, { signal: controller.signal }
+//orignal code
+// export const getAllPost = (query) => {
+//   const queryClient = useQueryClient();
+
+//   let rickandmortyapi = "https://rickandmortyapi.com/api/character";
+//   if (query) rickandmortyapi += `?name=${query}`;
+//   return axios.get(rickandmortyapi);
+// };
 export const SignOut = () => {
   localStorage.removeItem("accessToken");
 };

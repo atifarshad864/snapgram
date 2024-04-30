@@ -38,7 +38,8 @@ function App() {
           <Route path="/create-post" element={<CreatePost />}></Route>
           <Route path="/update-post/:id" element={<EditPost />}></Route>
           <Route path="/posts/:id" element={<PostDetails />}></Route>
-          <Route path="/profile/:id/*" element={<Profile />}></Route>
+          <Route path="/profile" element={<Profile />}></Route>
+          {/* path="/profile/:id/*" */}
           <Route path="/update-profile/:id" element={<UpdateProfile />}></Route>
 
           <Route element={<PrivateRoutes />}>
