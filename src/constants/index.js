@@ -50,23 +50,46 @@ export const bottombarLinks = [
 ];
 export const userStories = [
   {
+    id: 1,
     imgURL: "./assets/icons/bts.png",
     name: "BTS",
   },
   {
+    id: 2,
     imgURL: "/assets/icons/frisbee.png",
     name: "FrisBee",
   },
   {
+    id: 3,
     imgURL: "/assets/icons/mygames.png",
     name: "My Games",
   },
   {
+    id: 4,
     imgURL: "/assets/icons/nature.png",
     name: "Nature",
   },
   {
+    id: 5,
     imgURL: "/assets/icons/outdoor.png",
     name: "OutDoor",
+  },
+];
+
+export const userTabs = [
+  {
+    imgURL: "./assets/icons/posts.svg",
+    route: "/user-posts",
+    label: "Posts",
+  },
+  {
+    imgURL: "/assets/icons/reels.svg",
+    route: "/reels",
+    label: "Reels",
+  },
+  {
+    imgURL: "/assets/icons/Tag.svg",
+    route: "/tags",
+    label: "Tagged",
   },
 ];

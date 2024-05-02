@@ -46,10 +46,15 @@ const TopBar = ({ userInfo }) => {
             <img src="/assets/icons/logout.svg" alt="logo" />
           </Button>
           <img
-            src={`http://localhost:3000/images/${userInfo?.imageId}`}
+            src={
+              userInfo?.imageId
+                ? `http://localhost:3000/images/${userInfo.imageId}`
+                : "/assets/icons/dummy.png"
+            }
             alt="profile picture"
             className="rounded-full size-8"
           />
+
           {/* <Link to="/profile">
             <img
               src={

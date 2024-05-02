@@ -12,7 +12,7 @@ const LeftSideBar = ({ userInfo }) => {
   };
 
   return (
-    <nav className="leftsidebar">
+    <nav className="leftsidebar" userInfo={userInfo}>
       <div className="flex flex-col gap-11">
         <Link to="/" className="flex gap-3 item-center">
           <img
@@ -24,10 +24,15 @@ const LeftSideBar = ({ userInfo }) => {
         </Link>
         <div className="flex gap-3 items-center">
           <img
-            src={`http://localhost:3000/images/${userInfo?.imageId}`}
+            src={
+              userInfo?.imageId
+                ? `http://localhost:3000/images/${userInfo.imageId}`
+                : "/assets/icons/dummy.png"
+            }
             alt="profile picture"
             className="rounded-full size-12"
           />
+
           <div>
             <h3>{userInfo?.name}</h3>
             <p className="text-[#7878A3]">@{userInfo?.username}</p>
