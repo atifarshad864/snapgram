@@ -6,8 +6,10 @@ const UserStories = () => {
       {userStories.map((link) => {
         return (
           <div key={link.id}>
-            <img src={link.imgURL} alt="stories" />
-            <p className="text-center mt-1">{link.name}</p>
+            <img src={link.imgURL} alt="stories" className="max-md:size-10" />
+            <p className="max-md:text-[12px]  md:text-center mt-1 text-sm">
+              {link.name}
+            </p>
           </div>
         );
       })}

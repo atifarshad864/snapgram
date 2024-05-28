@@ -41,27 +41,35 @@ export const updatePostDetails = (_id, formData) => {
   return ApiServices.put(`post/update/${_id}`, formData);
 };
 
-export const getAllPost = (query) => {
-  const controller = new AbortController();
+//  let rickandmortyapi = `https://rickandmortyapi.com/api/character?page=${page}`;
 
-  let rickandmortyapi = "https://rickandmortyapi.com/api/character";
+// export const getAllPost = (query, page) => {
+//   // const controller = new AbortController();
 
-  if (query) rickandmortyapi += `?name=${query}`;
-  setTimeout(() => {
-    controller.abort();
-  }, 400);
-  return axios.get(rickandmortyapi, { signal: controller.signal });
-};
+//   let rickandmortyapi = `https://rickandmortyapi.com/api/character?$page{page}`;
+//   if (query) rickandmortyapi += `&name=${query}`; // Use "&" instead of "?" for additional query parameters
+//   // setTimeout(() => {
+//   //   controller.abort();
+//   // }, 400);
+//   // , { signal: controller.signal }
+//   return axios.get(rickandmortyapi);
+// };
 
 //, { signal: controller.signal }
 //orignal code
-// export const getAllPost = (query) => {
-//   const queryClient = useQueryClient();
+export const getAllPost = (query, page) => {
+  // const queryClient = useQueryClient();
+  console.log("query", query);
 
-//   let rickandmortyapi = "https://rickandmortyapi.com/api/character";
-//   if (query) rickandmortyapi += `?name=${query}`;
-//   return axios.get(rickandmortyapi);
-// };
+  let rickandmortyapi = `https://rickandmortyapi.com/api/character?page=${page}`;
+  if (query) rickandmortyapi += `&name=${query}`;
+  console.log("api =>", rickandmortyapi);
+  return axios.get(rickandmortyapi);
+};
 export const SignOut = () => {
   localStorage.removeItem("accessToken");
+};
+
+export const getRandomUsers = () => {
+  return axios.get("https://dummyjson.com/users");
 };

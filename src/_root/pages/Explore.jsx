@@ -1,20 +1,19 @@
 // import PostStats from "@/components/shared/PostStats";
+import Loader from "@/components/shared/Loader";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useGetPopularPosts } from "@/lib/react-query/queries";
 import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 const Explore = ({ userInfo }) => {
-  // const [characters, setCharacters] = useState([]);
+  const [allCharacters, setAllCharacters] = useState([]);
   const [query, setQuery] = useState("");
   const [name, setName] = useState("");
+  const [page, setPage] = useState(1);
+  // const [searching, setIsSearching] = useState(false);
   const requestRef = useRef(null);
-  // const posts = [];  //Comment to time being
-  // const shouldShowSearchResults = searchValue !== "";
-  // const shouldShownPosts =
-  //   !shouldShowSearchResults &&
-  //   posts.pages?.every((item) => item.data.length === 0);
-  const { data, isLoading } = useGetPopularPosts(name, 1000);
-  const characters = data?.data?.results;
+  const { data, isLoading, isFetching } = useGetPopularPosts(name, page);
+  const newCharacters = data?.data?.results;
   // Update characters state with the fetched data
   useEffect(() => {
     clearTimeout(requestRef.current);
@@ -24,7 +23,24 @@ const Explore = ({ userInfo }) => {
   }, [query]);
   // setCharacters(data.results);
   console.log(data, query);
-  if (isLoading || !characters) return <h1>Loading.....</h1>;
+
+  useEffect(() => {
+    if (newCharacters) {
+      if (data?.data?.info?.prev) {
+        setAllCharacters([...allCharacters, ...newCharacters]);
+      } else {
+        setAllCharacters(newCharacters);
+      }
+    }
+  }, [newCharacters]);
+  console.log("All Characters-------", allCharacters);
+  console.log("query-------------", query);
+  console.log("name-----", name);
+  const handleLoadMore = (isFetching) => {
+    console.log(isFetching);
+    setPage((prevPage) => prevPage + 1);
+  };
+
   return (
     <div className="explore-container">
       <div className="explore-inner_container">
@@ -57,8 +73,9 @@ const Explore = ({ userInfo }) => {
           />
         </div>
         <div className="flex flex-wrap gap-9 w-full max-w-5xl mt-3">
+          {/* {isLoading || !characters ? <Loader /> : null} */}
           <ul className="grid-container">
-            {characters.map((character) => (
+            {allCharacters?.map((character) => (
               <li key={character.id} className="relative min-w-80 h-80">
                 <Link to={`/post/${character.id}`} className="grid-post_link">
                   <img
@@ -82,6 +99,16 @@ const Explore = ({ userInfo }) => {
               </li>
             ))}
           </ul>
+          {!isLoading && !isFetching && data?.data?.info.next && (
+            <Button
+              onClick={handleLoadMore}
+              className="shad-button_primary w-20 m-auto mt-4 sm:mt-4"
+            >
+              Load More
+            </Button>
+          )}
+          {console.log(isFetching)}
+          {isFetching && <Loader />}
         </div>
       </div>
     </div>

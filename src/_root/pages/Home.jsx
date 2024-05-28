@@ -14,14 +14,14 @@ const Home = () => {
   }, [data]);
 
   return (
-    <div className="flex flex-1">
+    <div className="">
       <div className="home-container">
         <div className="home-posts">
           <h2 className="h3-bold md:h2-bold text-left w-full">Home Feed</h2>
           {isPending ? (
             <Loader />
           ) : (
-            <ul className="flex flex-col flex-1 gap-9 w-full">
+            <ul className="w-fit mx-auto">
               {postData?.map((post) => (
                 <PostCard
                   post={post}

@@ -1,6 +1,6 @@
 import React from "react";
 import { useGetRecentPosts } from "@/lib/react-query/queries";
-import Loader from "@/components/shared/Loader";
+// import Loader from "@/components/shared/Loader";
 import PageContainer from "./PageContainer";
 
 const UserPosts = () => {
@@ -10,9 +10,14 @@ const UserPosts = () => {
   return (
     <div className="mt-12">
       <PageContainer loading={isPending}>
-        <ul className="grid-container">
+        <ul
+          className=" grid grid-cols-3 gap-5"
+          style={{
+            gridTemplateColumns: "repeat(auto-fill, minmax(230px, 300px))",
+          }}
+        >
           {data?.data?.data?.map((post) => (
-            <li key={post._id}>
+            <li key={post._id} className="">
               {/* <p>{post.caption}</p> */}
               <img
                 src={
@@ -20,7 +25,10 @@ const UserPosts = () => {
                   "/assets/icons/profile-placeholder.svg"
                 }
                 alt="post image"
-                className="rounded-lg size-60 object-cover"
+                className="rounded-lg object-cover"
+                style={{
+                  aspectRatio: "4/3",
+                }}
               />
             </li>
           ))}

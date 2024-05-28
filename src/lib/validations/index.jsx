@@ -13,6 +13,13 @@ export const SignupValidation = yup.object({
     ),
 });
 
+export const editProfileValidations = yup.object({
+  name: yup.string().required("Name is required*"),
+  username: yup.string().required("Username is required*"),
+  email: yup.string().required("Email is required*"),
+  profilePic: yup.mixed().required("image is required"),
+});
+
 export const SigninValidation = yup.object({
   email: yup.string().required("Please enter your email"),
   password: yup.string().required("Please enter your password"),

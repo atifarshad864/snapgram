@@ -62,7 +62,7 @@ export const userStories = [
   {
     id: 3,
     imgURL: "/assets/icons/mygames.png",
-    name: "My Games",
+    name: "Games",
   },
   {
     id: 4,

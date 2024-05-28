@@ -4,6 +4,7 @@ import {
   createUserAccount,
   deletePost,
   getAllPost,
+  getRandomUsers,
   // getPopularPosts,
   getRecentPosts,
   likePost,
@@ -12,7 +13,6 @@ import {
   updatePostDetails,
   userInfo,
 } from "@/lib/api-functions/api";
-import { useRef } from "react";
 
 export const useLoginUserAccount = () => {
   const mutateloginUserAccount = useMutation({
@@ -82,10 +82,18 @@ export const useUpdatePostDetails = () => {
   return mutateUpdatePostDetails;
 };
 
-export const useGetPopularPosts = (query) => {
+export const useGetRandomUsers = () => {
+  const mutateRandomUsers = useQuery({
+    queryKey: ["getRandomUsers"],
+    queryFn: () => getRandomUsers(),
+  });
+  return mutateRandomUsers;
+};
+
+export const useGetPopularPosts = (query, page) => {
   const mutateGetPopularPosts = useQuery({
-    queryKey: ["getallPosts", query],
-    queryFn: ({ signal }) => getAllPost(query, { signal }),
+    queryKey: ["getallPosts", query, page],
+    queryFn: () => getAllPost(query, page), // Pass the page parameter
   });
 
   return mutateGetPopularPosts;

@@ -12,7 +12,7 @@ const LeftSideBar = ({ userInfo }) => {
   };
 
   return (
-    <nav className="leftsidebar" userInfo={userInfo}>
+    <nav className="leftsidebar">
       <div className="flex flex-col gap-11">
         <Link to="/" className="flex gap-3 item-center">
           <img
@@ -22,22 +22,24 @@ const LeftSideBar = ({ userInfo }) => {
             height={36}
           />
         </Link>
-        <div className="flex gap-3 items-center">
-          <img
-            src={
-              userInfo?.imageId
-                ? `http://localhost:3000/images/${userInfo.imageId}`
-                : "/assets/icons/dummy.png"
-            }
-            alt="profile picture"
-            className="rounded-full size-12"
-          />
+        <Link to="/profile">
+          <div className="flex gap-3 items-center">
+            <img
+              src={
+                userInfo?.imageId
+                  ? `http://localhost:3000/images/${userInfo.imageId}`
+                  : "/assets/icons/dummy.png"
+              }
+              alt="profile picture"
+              className="rounded-full size-12"
+            />
 
-          <div>
-            <h3>{userInfo?.name}</h3>
-            <p className="text-[#7878A3]">@{userInfo?.username}</p>
+            <div>
+              <h3>{userInfo?.name}</h3>
+              <p className="text-[#7878A3]">@{userInfo?.username}</p>
+            </div>
           </div>
-        </div>
+        </Link>
         <ul className="flex flex-col ">
           {sidebarLinks?.map((link) => {
             const isActive = pathname === link.route;
